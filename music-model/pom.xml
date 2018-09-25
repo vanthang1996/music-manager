@@ -1,0 +1,44 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>music-model</artifactId>
+	<packaging>bundle</packaging>
+
+	<parent>
+		<groupId>com.demo.music</groupId>
+		<artifactId>music-manage</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>..</relativePath>
+	</parent>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<version>2.5.3</version>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
+						<Import-Package>
+							com.demo.music.model,
+							org.apache.felix.service.command,
+							org.apache.felix.gogo.commands,
+							org.apache.karaf.shell.console,
+							org.apache.karaf.shell.commands,
+							javax.*;version="[1.0.0,3)",
+							com.mysql.jdbc; version="[5.0, 6)",
+							org.hibernate,
+							<!-- Needed for proxying's Javassist enhancement during runtime -->
+							org.hibernate.proxy;version="[4.0,5)",
+							javassist.util.proxy;version="[3.1,4)",
+							*
+						</Import-Package>
+						<Meta-Persistence>META-INF/persistence.xml</Meta-Persistence>
+					</instructions>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
