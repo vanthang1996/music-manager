@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1538205936947
+Build-Jdk: 1.8.0_181
+Built-By: Thang Tran Van
+Bundle-ManifestVersion: 2
+Bundle-Name: music-rest-model
+Bundle-SymbolicName: com.demo.music.music-rest-model
+Bundle-Version: 0.0.1.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Export-Package: com.demo.music.rest.model;uses:="com.demo.music.model,ja
+ vax.ws.rs,javax.xml.bind.annotation";version="0.0.1"
+Import-Package: com.demo.music.model;version="[0.0,1)",javax.ws.rs;versi
+ on="[2.0,3)",javax.xml.bind.annotation,javax.persistence;version="[2.1,
+ 3)",com.mysql.jdbc;version="[5.1,6)"
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.7))"
+Tool: Bnd-3.0.0.201509101326

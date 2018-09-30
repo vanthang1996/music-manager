@@ -9,6 +9,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<scanPath>com.demo</scanPath>
+		<cxf.version>3.1.5</cxf.version>
 	</properties>
 
 	<modules>
@@ -16,14 +17,17 @@
 		<module>music-persistence</module>
 		<module>music-features</module>
 		<module>music-command</module>
+		<module>music-rest</module>
 	</modules>
 
 	<dependencies>
+		
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.12</version>
+			<version>5.1.6</version>
 		</dependency>
+
 		<dependency>
 			<groupId>javax.inject</groupId>
 			<artifactId>javax.inject</artifactId>
@@ -73,10 +77,24 @@
 			<artifactId>javassist</artifactId>
 			<version>3.12.0.GA</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.aries.blueprint/org.apache.aries.blueprint.annotation.api -->
-
-
-
+		<dependency>
+			<groupId>org.apache.aries.transaction</groupId>
+			<artifactId>
+				org.apache.aries.transaction.blueprint
+			</artifactId>
+			<version>2.2.0</version>
+			<type>bundle</type>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http-jetty</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>

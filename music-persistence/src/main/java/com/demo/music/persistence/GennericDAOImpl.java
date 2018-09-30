@@ -6,35 +6,31 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
-
-import org.apache.aries.blueprint.annotation.bean.Bean;
-import org.apache.aries.blueprint.annotation.bean.Scope;
-import org.apache.aries.blueprint.annotation.service.Service;
+import javax.transaction.Transactional;
+import javax.transaction.Transactional.TxType;
 
 import com.demo.music.model.ServiceDAOGenneric;
-import com.demo.music.model.Song;
 
-@Bean(scope = Scope.PROTOTYPE, id = "genneric-dao", initMethod="init")
-/*
- * @Service(classes = ServiceDAOGenneric.class, properties = {
- * 
- * @ServiceProperty(name = "music.genneric.dao", values = "true") })
- */
-@Service
 public class GennericDAOImpl<T> implements ServiceDAOGenneric<T> {
-
-	@PersistenceContext(unitName = "managed-jpa")
+	@PersistenceUnit(unitName = "managed-jpa")
+	private EntityManagerFactory m_factory;
 	private EntityManager m_entityManager;
 	private Class<T> m_type;
-	private int i;
 
 	public GennericDAOImpl() {
-		i = (int) (Math.random() * 100);
+		init();
 	}
 
-	public void init() {
+	private void loadEntityManager() {
+		if (m_entityManager == null)
+			m_entityManager = m_factory.createEntityManager();
+	}
+
+	@SuppressWarnings("unchecked")
+	private void init() {
 		try {
 			Type type = getClass().getGenericSuperclass();
 
@@ -46,7 +42,6 @@ public class GennericDAOImpl<T> implements ServiceDAOGenneric<T> {
 					type = ((Class<?>) type).getGenericSuperclass();
 				}
 			}
-
 			this.m_type = (Class<T>) ((ParameterizedType) type).getActualTypeArguments()[0];
 		} catch (Exception e) {
 			System.out.println("NPE");
@@ -55,46 +50,49 @@ public class GennericDAOImpl<T> implements ServiceDAOGenneric<T> {
 	}
 
 	@Override
+	@Transactional(value = TxType.REQUIRES_NEW)
 	public void add(T item) {
-		// TODO Auto-generated method stub
-
+		loadEntityManager();
+		m_entityManager.getTransaction().begin();
+		m_entityManager.persist(item);
+		m_entityManager.getTransaction().commit();
 	}
 
 	@Override
-	public void update(int tId, T item) {
-		// TODO Auto-generated method stub
-
+	@Transactional(value = TxType.REQUIRES_NEW)
+	public void update(T item) {
+		loadEntityManager();
+		m_entityManager.merge(item);
+		m_entityManager.flush();
 	}
 
 	@Override
+	@Transactional(value = TxType.REQUIRES_NEW)
 	public void delete(int tId) {
-		// TODO Auto-generated method stub
-
+		loadEntityManager();
+		T t = findById(tId);
+		m_entityManager.remove(t);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Set<T> getAll() {
-		System.out.println("ID=" + i);
+		loadEntityManager();
 		String hql = "from " + m_type.getName();
-		System.out.println("HQL Query: " + hql);
 		Query query = m_entityManager.createQuery(hql);
-		return new HashSet(query.getResultList());
+		return new HashSet<T>(query.getResultList());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public T findById(int id) {
-		return null;
-	}
-
-	@Override
-	public void setClazz(Class<T> class1) {
-		this.m_type = class1;
-
-	}
-
-	public static void main(String[] args) {
-		Song song = new Song();
-		System.out.println(song.getClass().getName());
+		loadEntityManager();
+		try {
+			System.out.println(m_type.getClassLoader().loadClass(m_type.getName()));
+			return (T) m_entityManager.find(m_type.getClassLoader().loadClass(m_type.getName()), id);
+		} catch (ClassNotFoundException e) {
+			return null;
+		}
 	}
 
 }

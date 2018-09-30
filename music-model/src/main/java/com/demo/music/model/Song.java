@@ -34,7 +34,7 @@ public class Song implements Serializable {
 	@Column(name = "name")
 	private String m_songName;
 // have to mappyedBy otherwise jpa auto gennerate manytomany relationship wit artist table
-	@OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.ALL }, mappedBy = "m_songById")
+	@OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.ALL }, mappedBy = "m_songById")
 	private Set<Artist> m_artists = new HashSet<Artist>();
 
 	public Song() {

@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?><blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
-    <bean id="genneric-dao" class="com.demo.music.persistence.GennericDAOImpl" scope="prototype" init-method="init"/>
+    <bean id="artist-dao" class="com.demo.music.persistence.ArtistDao"/>
+    <bean id="song-dao" class="com.demo.music.persistence.SongDao"/>
     <enable xmlns="http://aries.apache.org/xmlns/jpa/v2.0.0"/>
-    <service ref="genneric-dao" auto-export="interfaces"/>
+    <service ref="artist-dao" interface="com.demo.music.model.ServiceDAOGenneric">
+        <service-properties>
+            <entry key="artist.service.dao" value="true"/>
+        </service-properties>
+    </service>
+    <service ref="song-dao" interface="com.demo.music.model.ServiceDAOGenneric">
+        <service-properties>
+            <entry key="song.service.dao" value="true"/>
+        </service-properties>
+    </service>
+    <enable xmlns="http://aries.apache.org/xmlns/transactions/v2.0.0"/>
 </blueprint>

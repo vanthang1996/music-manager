@@ -1,0 +1,29 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1538205923046
+Build-Jdk: 1.8.0_181
+Built-By: Thang Tran Van
+Bundle-Blueprint: OSGI-INF/blueprint/autowire.xml
+Bundle-ManifestVersion: 2
+Bundle-Name: music-persistence
+Bundle-SymbolicName: com.demo.music.music-persistence
+Bundle-Version: 0.0.1.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Export-Package: com.demo.music.persistence;uses:="com.demo.music.model,j
+ avax.transaction,org.apache.aries.blueprint.annotation.bean,org.apache.
+ aries.blueprint.annotation.service";version="0.0.1"
+Import-Package: com.demo.music.model;version="[0.0,1)",javax.persistence
+ ;version="[0.0.0,3)",javax.transaction;version="[0.0.0,3)",org.apache.a
+ ries.blueprint.annotation.bean;version="[1.0,2)";resolution:=optional,o
+ rg.apache.aries.blueprint.annotation.service;version="[1.0,2)";resoluti
+ on:=optional,org.osgi.service.blueprint;version="[1.0.0,2.0.0)",com.mys
+ ql.jdbc;version="[5.0,6)",org.hibernate.engine.spi;version="[4.0,5)",or
+ g.hibernate.proxy;version="[4.0,5)",org.apache.karaf.shell.commands,org
+ .apache.karaf.shell.console,org.hibernate;version="[3.0,5)",org.hiberna
+ te.service.spi;version="[4.0,5)",org.apache.felix.service.command,org.a
+ pache.felix.gogo.commands
+Provide-Capability: osgi.service;effective:=active;objectClass="com.demo
+ .music.model.ServiceDAOGenneric";artist.service.dao=true,osgi.service;e
+ ffective:=active;objectClass="com.demo.music.model.ServiceDAOGenneric";
+ song.service.dao=true
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.6))"
+Tool: Bnd-2.3.0.201405100607

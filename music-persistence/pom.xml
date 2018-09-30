@@ -38,9 +38,11 @@
 							org.apache.felix.gogo.commands,
 							org.apache.karaf.shell.console,
 							org.apache.karaf.shell.commands,
-							javax.*;version="[1.0.0,3)",
-							com.mysql.jdbc; version="[5.0, 6)",
-							org.hibernate,
+							javax.*;version="[0.0.0,3)",
+							com.mysql.jdbc; version="[5.0,6)",
+							org.hibernate.engine.spi;version="[4.0,5)",
+							org.hibernate; version="[3.0,5)",
+							org.hibernate.service.spi;version="[4.0,5)",
 							<!-- Needed for proxying's Javassist enhancement during runtime -->
 							org.hibernate.proxy;version="[4.0,5)",
 							*

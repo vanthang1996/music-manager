@@ -1,0 +1,30 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1538205927997
+Build-Jdk: 1.8.0_181
+Built-By: Thang Tran Van
+Bundle-Blueprint: OSGI-INF/blueprint/autowire.xml
+Bundle-ManifestVersion: 2
+Bundle-Name: music-command
+Bundle-SymbolicName: com.demo.music.music-command
+Bundle-Version: 0.0.1.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Export-Package: com.demo.music.command.constants;version="0.0.1",com.dem
+ o.music.command;uses:="javax.inject,org.apache.aries.blueprint.annotati
+ on.service";version="0.0.1"
+Import-Package: com.demo.music.model;version="[0.0,1)",javax.inject;reso
+ lution:=optional,org.apache.aries.blueprint.annotation.service;version=
+ "[1.0,2)";resolution:=optional,org.apache.karaf.shell.table;version="[4
+ .0,5)",org.osgi.service.blueprint;version="[1.0.0,2.0.0)",com.mysql.jdb
+ c;version="[5.1,6)",javax.persistence;version="[2.1,3)"
+Provide-Capability: osgi.service;effective:=active;objectClass="com.demo
+ .music.command.MusicCommandSong";osgi.command.scope=song-music;osgi.com
+ mand.function:List<String>="add,list,find",osgi.service;effective:=acti
+ ve;objectClass="com.demo.music.command.MusicCommandArtist";osgi.command
+ .scope=artist-music;osgi.command.function:List<String>="add,list,update
+ "
+Require-Capability: osgi.service;effective:=active;filter:="(&(objectCla
+ ss=com.demo.music.model.ServiceDAOGenneric)(song.service.dao=true))",os
+ gi.service;effective:=active;filter:="(&(objectClass=com.demo.music.mod
+ el.ServiceDAOGenneric)(artist.service.dao=true))",osgi.ee;filter:="(&(o
+ sgi.ee=JavaSE)(version=1.6))"
+Tool: Bnd-2.3.0.201405100607

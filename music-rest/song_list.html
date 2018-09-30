@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Music Manage| song</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+        crossorigin="anonymous">
+
+    <script>
+        var port =  8181;
+        var endPoint  = "/cxf/music/"
+        var servername = "http://localhost:" + port + endPoint
+        var xmlhttp = null;
+        if (window.XMLHttpRequest) {
+            // code for modern browsers
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            // code for old IE browsers
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log(JSON.parse(this.responseText));
+            }
+        };
+        xmlhttp.open("GET",  servername + "songs", false);
+        xmlhttp.send();
+
+        xmlhttp.open("GET", servername + "artists",false)
+        xmlhttp.send();
+
+    </script>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        ID
+                    </th>
+
+                    <th scope="col">
+                        Name
+                    </th>
+                    <th>
+                        Artist_Name
+                    </th>
+                    <th scope="col"><button type="button" class="btn btn-success"> <span class="glyphicon glyphicon-plus"></span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>ABC</td>
+                    <td><button type="button" class="btn btn-danger"> <span class="glyphicon glyphicon-trash"></span></button>
+                        <button type="button" class="btn btn-warning"> <span class="glyphicon glyphicon-pencil"></span></button>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+
+    </div>
+
+</body>
+
+</html>

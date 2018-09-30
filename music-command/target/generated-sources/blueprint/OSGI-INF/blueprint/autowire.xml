@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?><blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
     <bean xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.0.0" id="musicCommandArtist" class="com.demo.music.command.MusicCommandArtist" ext:field-injection="true">
-        <property name="m_serviceDAOGennericArtist" ref="serviceDAOGenneric--genneric-dao"/>
+        <property name="m_artistService" ref="serviceDAOGenneric-artistservicedaotrue"/>
+        <property name="m_songService" ref="serviceDAOGenneric-songservicedaotrue"/>
     </bean>
     <bean xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.0.0" id="musicCommandSong" class="com.demo.music.command.MusicCommandSong" ext:field-injection="true">
-        <property name="m_serviceDAOGennericSong" ref="serviceDAOGenneric--genneric-dao"/>
+        <property name="m_artistService" ref="serviceDAOGenneric-artistservicedaotrue"/>
+        <property name="m_songService" ref="serviceDAOGenneric-songservicedaotrue"/>
     </bean>
-    <reference id="serviceDAOGenneric--genneric-dao" interface="com.demo.music.model.ServiceDAOGenneric" component-name="genneric-dao"/>
+    <reference id="serviceDAOGenneric-artistservicedaotrue" interface="com.demo.music.model.ServiceDAOGenneric" filter="(artist.service.dao=true)"/>
+    <reference id="serviceDAOGenneric-songservicedaotrue" interface="com.demo.music.model.ServiceDAOGenneric" filter="(song.service.dao=true)"/>
     <service ref="musicCommandArtist" interface="com.demo.music.command.MusicCommandArtist">
         <service-properties>
             <entry key="osgi.command.scope" value="artist-music"/>
@@ -25,6 +28,7 @@
                 <array>
                     <value>add</value>
                     <value>list</value>
+                    <value>find</value>
                 </array>
             </entry>
         </service-properties>

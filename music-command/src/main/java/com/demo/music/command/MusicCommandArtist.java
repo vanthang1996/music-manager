@@ -12,6 +12,7 @@ import org.apache.karaf.shell.table.ShellTable;
 
 import com.demo.music.model.Artist;
 import com.demo.music.model.ServiceDAOGenneric;
+import com.demo.music.model.Song;
 
 @Service(classes = MusicCommandArtist.class, properties = {
 		@ServiceProperty(name = "osgi.command.scope", values = "artist-music"),
@@ -19,38 +20,39 @@ import com.demo.music.model.ServiceDAOGenneric;
 @Singleton
 public class MusicCommandArtist {
 	@Inject
-	/* @Reference(filter = "(music.genneric.dao=true)") */
-	@Reference(componentName = "genneric-dao")
-	ServiceDAOGenneric<Artist> m_serviceDAOGennericArtist;
+	@Reference(filter = "(artist.service.dao=true)")
+	private ServiceDAOGenneric<Artist> m_artistService;
+	@Inject
+	@Reference(filter = "(song.service.dao=true)")
+	private ServiceDAOGenneric<Song> m_songService;
 
-	public void setGenneric() {
-		this.m_serviceDAOGennericArtist.setClazz(Artist.class);
-	}
-
-	public void add(String name) {
+	public void add(String name, int songId) {
 		Artist artist = new Artist();
 		artist.setArtistName(name);
-		setGenneric();
-		m_serviceDAOGennericArtist.add(artist);
+		Song song = m_songService.findById(songId);
+		if (song != null)
+			artist.setSongById(song);
+		m_artistService.add(artist);
 	}
 
 	public void list() {
+		System.out.println("new");
 		ShellTable table = new ShellTable();
 		table.column("id");
 		table.column("name");
-		setGenneric();
-		Set<Artist> list = m_serviceDAOGennericArtist.getAll();
-		for (Artist artist : list) {
-			table.addRow().addContent(artist.getArtistId(), artist.getArtistName());
-		}
+		table.column("song_name");
+
+		Set<Artist> list = m_artistService.getAll();
+		for (Artist artist : list)
+			table.addRow().addContent(artist.getArtistId(), artist.getArtistName(), artist.getSongById().getSongName());
 		table.print(System.out);
-		System.out.println(m_serviceDAOGennericArtist);
 	}
 
 	public void update(int artistId, String artistName) {
-		Artist artist = new Artist();
-		artist.setArtistId(artistId);
+		Artist artist = m_artistService.findById(artistId);
+		if (artist == null)
+			return;
 		artist.setArtistName(artistName);
-		m_serviceDAOGennericArtist.update(artistId, artist);
+		m_artistService.update(artist);
 	}
 }
